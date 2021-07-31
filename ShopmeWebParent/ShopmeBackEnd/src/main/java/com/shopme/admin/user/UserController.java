@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -26,12 +27,14 @@ public class UserController {
 
 	@GetMapping("/users")
 	public String listFirstPage(Model model) {
-		return listByPage(1, model);
+		return listByPage(1, model,"id","asc",null);
 	}
 
 	@GetMapping("/users/page/{pageNum}")
-	public String listByPage(@PathVariable("pageNum") int pageNum, Model model) {
-		Page<User> page = service.listByPage(pageNum);
+	public String listByPage(@PathVariable("pageNum") int pageNum, Model model, 
+			@Param("sortFiled") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword
+	){
+		Page<User> page = service.listByPage(pageNum,sortField,sortDir,keyword);
 		List<User> listUsers = page.getContent();
 		
 		long startCount = (pageNum-1)*UserService.USERS_PER_PAGE+1;
@@ -39,12 +42,17 @@ public class UserController {
 		if(endCount>page.getTotalElements()) {
 			endCount = page.getTotalElements();
 		}
+		String reverseSort = sortDir.equals("asc") ? "des" : "asc";
 		model.addAttribute("currentPage",pageNum);
 		model.addAttribute("totalPages",page.getTotalPages());
 		model.addAttribute("startCount",startCount);
 		model.addAttribute("endCount",endCount);
 		model.addAttribute("totalItems",page.getTotalElements());
 		model.addAttribute("listUsers", listUsers);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSort", reverseSort);
+		model.addAttribute("keyword", keyword);
 		return "users";
 	}
 	

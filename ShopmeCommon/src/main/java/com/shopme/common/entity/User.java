@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,5 +56,11 @@ public class User {
 	
 	public void addRole(Role role) {
 		this.roles.add(role);
+	}
+	
+	@Transient
+	public String getPhotosImagePath() {
+		if(id == null || photos == null) return "/images/default-user.png";
+		return "/user-photos/"+this.id+"/"+this.photos;
 	}
 }
