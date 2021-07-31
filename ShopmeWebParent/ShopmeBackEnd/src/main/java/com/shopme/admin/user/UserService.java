@@ -30,7 +30,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     public List<User> listAll(){
-    	return (List<User>)repo.findAll();
+    	return (List<User>)repo.findAll(Sort.by("id").ascending());
     }
     
     public List<Role> listRoles(){
