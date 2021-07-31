@@ -79,49 +79,14 @@
 				class="table table-bordered table-striped table-hover table-responsive-xl">
 				<thead class="thead-dark">
 					<tr>
-						<th>
-							<a class="text-white" th:if="${sortField != 'id'}" th:href="@{'/users/page/'+${currentPage}+'?sortField=id&sortDir='+${sortDir}+${keyword != null ? '&keyword='+ keyword : '' }}">
-								ID
-							</a>
-							<a class="text-white" th:if="${sortField == 'id'}" th:href="@{'/users/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+${keyword != null ? '&keyword='+ keyword : '' }}">
-								ID
-							</a>
-							<span class="text-white" th:if="${sortField == 'id'}"
-							      th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
-						</th>
+						<th th:replace = "fragments :: column_link('id','ID')"/>
+							
 						<th>Photos</th>
-						<th>
-							<a class="text-white" th:if="${sortField != 'email'}" th:href="@{'/users/page/'+${currentPage}+'?sortField=email&sortDir='+${sortDir}+${keyword != null ? '&keyword='+ keyword : '' }}">
-								Email
-							</a>
-							<a class="text-white" th:if="${sortField == 'email'}" th:href="@{'/users/page/'+${currentPage}+'?sortField=email&sortDir='+${reverseSort}+${keyword != null ? '&keyword='+ keyword : '' }}">
-								Email
-							</a>
-							<span th:if="${sortField == 'email'}"
-							      th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
-						</th>
-						<th>
-							<a class="text-white" th:if="${sortField != 'firstName'}" th:href="@{'/users/page/'+${currentPage}+'?sortField=firstName&sortDir='+${sortDir}+${keyword != null ? '&keyword='+ keyword : '' }}">
-								First Name
-							</a>
-							<a class="text-white" th:if="${sortField == 'firstName'}" th:href="@{'/users/page/'+${currentPage}+'?sortField=firstName&sortDir='+${reverseSort}+${keyword != null ? '&keyword='+ keyword : '' }}">
-								First Name
-							</a>
-							<span th:if="${sortField == 'firstName'}"
-							      th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
-						</th>
-						<th>
-							<a class="text-white" th:if="${sortField != 'lastName'}" th:href="@{'/users/page/'+${currentPage}+'?sortField=lastName&sortDir='+${sortDir}+${keyword != null ? '&keyword='+ keyword : '' }}">
-								Last Name
-							</a>
-							<a class="text-white" th:if="${sortField == 'lastName'}" th:href="@{'/users/page/'+${currentPage}+'?sortField=lastName&sortDir='+${reverseSort}+${keyword != null ? '&keyword='+ keyword : '' }}">
-								Last Name
-							</a>
-							<span th:if="${sortField == 'lastName'}"
-							      th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
-						</th>
+						<th th:replace = "fragments :: column_link('email','E-mail')"/>
+						<th th:replace = "fragments :: column_link('firstName','First Name')"/>
+						<th th:replace = "fragments :: column_link('lastName','Last Name')"/>
 						<th>Roles</th>
-						<th>Enabled</th>
+						<th th:replace = "fragments :: column_link('enabled','Enabled')"/>
 						<th></th>
 					</tr>
 				</thead>
@@ -186,15 +151,17 @@
 		<div th:if="${totalPages > 1}">
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
-					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/1?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+ keyword : '' }}">First</a></li>
-					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/'+${currentPage-1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+ keyword : '' }}">Previous</a></li>
+					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                       <a th:replace = "fragments :: page_link(1,'First')"></a>
+                    </li>
+					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"> <a th:replace = "fragments :: page_link(${currentPage-1},'Previous')"></a></li>
 					
 					<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" th:each="i:${#numbers.sequence(1,totalPages)}">
-						<a class="page-link" th:href="@{'/users/page/'+${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+ keyword : '' }}">[[${i}]]</a>
+						 <a th:replace = "fragments :: page_link(${i},${i})"></a>
 					</li>
 					
-					<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/'+${currentPage+1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+ keyword : '' }}">Next</a></li>
-					<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/'+${totalPages}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+ keyword : '' }}">Last</a></li>
+					<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"> <a th:replace = "fragments :: page_link(${currentPage+1},'Next')"></a></li>
+					<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"><a th:replace = "fragments :: page_link(${totalPages},'Last')"></a></li>
 				</ul>
 			</nav>
 		</div>
