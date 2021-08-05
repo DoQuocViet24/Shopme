@@ -1,4 +1,4 @@
-package com.shopme.admin.user;
+package com.shopme.admin.user.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,6 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
+import com.shopme.admin.user.UserNotFoundException;
+import com.shopme.admin.user.UserService;
+import com.shopme.admin.user.export.UserCsvExporter;
+import com.shopme.admin.user.export.UserExcelExporter;
+import com.shopme.admin.user.export.UserPDFExporter;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
@@ -55,7 +60,7 @@ public class UserController {
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSort", reverseSort);
 		model.addAttribute("keyword", keyword);
-		return "users";
+		return "users/users";
 	}
 	
 	@GetMapping("/users/new")
@@ -66,7 +71,7 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("listRoles", listRoles);
 		model.addAttribute("title", "Create New User");
-		return "user_form";
+		return "users/user_form";
 	}
 
 	@PostMapping("/users/save")
@@ -106,7 +111,7 @@ public class UserController {
 			return "redirect:/users";
 		}
 
-		return "user_form";
+		return "users/user_form";
 	}
 
 	@GetMapping("/users/delete/{id}")

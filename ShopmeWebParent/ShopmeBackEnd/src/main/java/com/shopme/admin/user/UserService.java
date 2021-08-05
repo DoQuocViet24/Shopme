@@ -62,6 +62,21 @@ public class UserService {
     	return repo.save(user);
     }
     
+    public User updateAccount(User userInForm) {
+    	User userInDB = repo.findById(userInForm.getId()).get();
+    	if(!userInForm.getPassword().isEmpty()) {
+    		userInDB.setPassword(userInForm.getPassword());
+    		encodePassword(userInDB);
+    	}
+    	if(userInForm.getPhotos() != null) {
+    		userInDB.setPhotos(userInForm.getPhotos());
+    	}
+    	userInDB.setFirstName(userInForm.getFirstName());
+    	userInDB.setLastName(userInForm.getLastName());
+    	
+    	return repo.save(userInDB);
+    }
+    
     private void encodePassword(User user) {
     	String encodedPassword = passwordEncoder.encode(user.getPassword());
     	user.setPassword(encodedPassword);
@@ -101,4 +116,8 @@ public class UserService {
     public void updateUserStatus(Integer id, boolean enabled) {
     	repo.updateEnabledStatus(id, enabled);
     }
+
+	public User getByEmail(String email) {
+		return repo.getUserByEmail(email);
+	}
 }

@@ -5,12 +5,8 @@
 <body>
 	<div class="container-fluid">
 		<div th:replace="navigation :: menu"></div>
-		<div>
-			<h2>Shopme Control Panel</h2>
-			Welcome 
-			<a th:href="@{/account}" sec:authentication = "principal.fullname"></a>
-			&nbsp;
-			<span sec:authentication="principal.authorities"></span>
+		<div class="text-center m-3">
+			<h2>Sorry, an unexpected error has occurred</h2>
 		</div>
          
 		<div th:replace = "fragments :: footer"></div>

@@ -32,5 +32,27 @@
 	 <div th:fragment = "footer" class="text-center m-3">
 			<p>Shopme Control Panel - Copyright &copy; Shopme</p>
 	 </div>
+	 
+	 <!--Categories -->
+     <td th:fragment = "category_status">
+    	<a th:if="${cat.enabled == true}"
+		 	class="fas fa-check-circle fa-2x icon-blue"
+			th:href="@{'/categories/'+${cat.id}+'/enabled/false'}"
+			title="Disable this user"></a>
+		<a th:if="${cat.enabled == false}"
+			class="fas fa-circle fa-2x icon-dark"
+			th:href="@{'/categories/'+${cat.id}+'/enabled/true'}"
+			title="Disable this user"></a>
+	</td>	
+	<td th:fragment = "category_action">
+		<a class="fas fa-edit fa-2x icon-green"
+			th:href="@{'/categories/edit/'+ ${cat.id}}" title="Edit this user"></a>
+		&nbsp; 
+		<a class="fas fa-trash fa-2x icon-dark link-delete"
+			th:href="@{'/categories/delete/'+${cat.id}}" 
+			title="Delete this user"></a>
+	</td>	 
+	 
+	 
 </body>
 </html>
