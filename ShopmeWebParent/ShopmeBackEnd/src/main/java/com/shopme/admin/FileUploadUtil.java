@@ -42,4 +42,14 @@ public class FileUploadUtil {
 			System.out.println("Could not list directory: "+ dirPath);
 		}
 	}
+
+	public static void removeDir(String categoryDir) {
+		cleanDir(categoryDir);
+		try {
+			Files.delete(Paths.get(categoryDir));
+		}catch (IOException e) {
+			System.out.println("Could not remove directory: "+ categoryDir);
+		}
+		
+	}
 }

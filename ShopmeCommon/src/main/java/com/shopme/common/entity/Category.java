@@ -40,7 +40,8 @@ public class Category {
 	private Category parent;
 	@OneToMany(mappedBy = "parent")
 	private Set<Category> children = new HashSet<>();
-	
+	@Transient
+	private boolean hasChildren;
 	public Category(int i) {
 		this.id=id;
 	}
@@ -66,7 +67,7 @@ public class Category {
 		copyCategory.setImage(category.getImage());
 		copyCategory.setAlias(category.getAlias());
 		copyCategory.setEnabled(category.isEnabled());
-		
+		copyCategory.setHasChildren(category.getChildren().size() > 0);
 		return copyCategory;
 		
 	}
