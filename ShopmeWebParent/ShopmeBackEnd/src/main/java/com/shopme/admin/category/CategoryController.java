@@ -3,6 +3,8 @@ package com.shopme.admin.category;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.admin.user.UserService;
+import com.shopme.admin.user.export.UserCsvExporter;
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
@@ -42,7 +45,7 @@ public class CategoryController {
 		}
 		CategoryPageInfo pageInfo = new CategoryPageInfo();
 		List<Category> listCategories = service.listByPage(pageInfo,pageNum,sortDir,keyword);
-		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+		String reverseSort = sortDir.equals("asc") ? "desc" : "asc";
 		long startCount = (pageNum-1)*CategoryService.ROOT_CATEGORY_PER_PAGE+1;
 		long endCount = startCount + CategoryService.ROOT_CATEGORY_PER_PAGE -1;
 		if(endCount > pageInfo.getTotalElements()) {
@@ -57,7 +60,7 @@ public class CategoryController {
 		model.addAttribute("startCount",startCount);
 		model.addAttribute("endCount",endCount);
 		model.addAttribute("listCategories",listCategories);
-		model.addAttribute("reverseSortDir", reverseSortDir);
+		model.addAttribute("reverseSort", reverseSort);
 		return "categories/categories";
 	}
 	
@@ -126,4 +129,12 @@ public class CategoryController {
 
 		return "redirect:/categories";
 	}
+	
+	@GetMapping("/categories/export/csv")
+	public void exportToCSV(HttpServletResponse response) throws IOException {
+		List<Category> listCategories  = service.listCategoriesUsedInForm();
+		CategoryCsvExporter exporter = new CategoryCsvExporter();
+		exporter.export(listCategories, response);
+	}
+
 }

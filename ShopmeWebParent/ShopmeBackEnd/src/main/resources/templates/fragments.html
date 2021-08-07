@@ -16,9 +16,9 @@
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
 </head>
 <body>
-	<th th:fragment="column_link(fieldName,columnLabel,removeTag)" th:remove="${removeTag}">
+	<th th:fragment="column_link(URL,fieldName,columnLabel,removeTag)" th:remove="${removeTag}">
 		<a class="text-white" 
-		   th:href="@{'/users/page/'+${currentPage}+'?sortField=' + ${fieldName} + '&sortDir='+${sortField != fieldName ? sortDir : reverseSort}+${keyword != null ? '&keyword='+ keyword : '' }}">
+		   th:href="@{${URL}+'/page/'+${currentPage}+'?sortField=' + ${fieldName} + '&sortDir='+${sortField != fieldName ? sortDir : reverseSort}+${keyword != null ? '&keyword='+ keyword : '' }}">
 			[[${columnLabel}]]
 		</a>
 		<span class="text-white" th:if="${sortField == fieldName}"
@@ -33,27 +33,31 @@
 			<p>Shopme Control Panel - Copyright &copy; Shopme</p>
 	 </div>
 	 
-	 <!--Categories -->
-     <td th:fragment = "category_status">
-    	<a th:if="${cat.enabled == true}"
+     <div th:fragment = "status(enabled,entityName,URL)" th:remove="tag">
+    	<a th:if="${enabled == true}"
 		 	class="fas fa-check-circle fa-2x icon-blue"
-			th:href="@{'/categories/'+${cat.id}+'/enabled/false'}"
-			title="Disable this category"></a>
-		<a th:if="${cat.enabled == false}"
+			th:href="@{${URL}+'/enabled/false'}"
+			th:title="'Disable this ' + ${entityName}"></a>
+		<a th:if="${enabled == false}"
 			class="fas fa-circle fa-2x icon-dark"
-			th:href="@{'/categories/'+${cat.id}+'/enabled/true'}"
-			title="Disable this category"></a>
-	</td>	
-	<td th:fragment = "category_action">
+			th:href="@{${URL}+'/enabled/true'}"
+			th:title="'Enable this ' + ${entityName}"></a>
+	</div>	
+	
+	
+	 <div th:fragment = "edit(URL,entityName)" th:remove="tag">
 		<a class="fas fa-edit fa-2x icon-green"
-			th:href="@{'/categories/edit/'+ ${cat.id}}" title="Edit this category"></a>
-		&nbsp; 
-		<th:block th:if="${cat.hasChildren == false}">
+			th:href="@{${URL}}" th:title="'Edit this '+${entityName} "></a>
+	</div>
+	
+	<div th:fragment = "delete(URL,entityName,entityId,hide)" th:remove="tag">
+		<th:block th:if="${hide}">
 			<a class="fas fa-trash fa-2x icon-dark link-delete"
-				th:href="@{'/categories/delete/'+${cat.id}}"  th:entityId="${cat.id}"
-				title="Delete this category"></a>
+				th:href="@{${URL}}"  th:entityId="${entityId}"
+				th:title="'Delete this '+ ${entityName}"></a>
 		</th:block>
-	</td>	 
+	</div> 
+	
 	 <div  th:fragment = "pagination(moduleURL, entityName)" th:remove = "tag">
 	 	<div class="text-center m-1" th:if="${totalItems > 0}">
 			<span>Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of
@@ -62,6 +66,7 @@
 		<div class="text-center m-1" th:unless="${totalItems > 0}">
 			<span>No users found</span>
 		</div>
+		
 		<div th:if="${totalPages > 1}">
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center flex-wrap">
@@ -82,6 +87,7 @@
 	 </div>
 	 
 	 <div th:fragment = "search(URL)">
+	        <div th:if="${message !=null}" class="alert alert-success text-center">[[${message}]]</div>
 			<form th:action="@{${URL}}" class="form-inline m-3">
 				<input type="hidden" name="sortField" th:value="${sortField}"/>
 				<input type="hidden" name="sortDir" th:value="${sortDir}"/>
