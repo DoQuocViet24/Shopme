@@ -29,7 +29,7 @@
 					<tr th:each="brand: ${listBrands}">
 						<td>[[${brand.id}]]</td>
 						<td>
-							<img alt="default.png" src="" style="width:100px" />
+							<img alt="default.png" th:src="@{${brand.logoPath}}" style="width:100px" />
 						</td>
 						<td>[[${brand.name}]]</td>
 						<td >
@@ -50,7 +50,7 @@
 		<div class="less-details">
 				<div th:each="brand: ${listbrands}" class="row m-1">
 					<div class="col-4">
-						<img alt="" src="" style="width: 100px"  class="img-fluid"/>
+						<img alt="" th:src="@{${brand.logoPath}}" style="width: 100px"  class="img-fluid"/>
 					</div>
 					<div class="col-8">
 					    <div>[[${brand.name}]]</div>
@@ -72,12 +72,12 @@
 	</div>
 	<script th:src="@{/js/common_list.js}"></script>
 	<script type="text/javascript">
-	    moduleURL = "[[@{/categories}]]"
+	    moduleURL = "[[@{/brands}]]"
 		$(document).ready( function() {
 			$(".link-delete").on("click",function(e) {
 				e.preventDefault();
 				
-				showDeleteConfirmModal($(this),"category");
+				showDeleteConfirmModal($(this),"brand");
 						
 			 }); 
 		});
