@@ -3,6 +3,8 @@ package com.shopme.admin.brand;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -133,4 +135,11 @@ public class BrandController {
 		
 		return "redirect:/brands";
 	}	
+	
+	@GetMapping("/brands/export/csv")
+	public void exportToCSV(HttpServletResponse response) throws IOException {
+		List<Brand> listBrands = brandService.listAll();
+		BrandCsvExporter exporter = new BrandCsvExporter();
+		exporter.export(listBrands, response);
+	}
 }
