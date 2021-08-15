@@ -13,7 +13,7 @@ public class AbstractExporter {
 			String extension, String prefix) throws IOException {
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 		String timestamp = dateFormatter.format(new Date());
-		String fileName = prefix + timestamp + extension;
+		String fileName = prefix + timestamp + "." +extension;
 		
 		response.setContentType(contentType);
 		

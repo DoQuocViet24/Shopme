@@ -22,6 +22,7 @@ import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.category.CategoryService;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
+import com.shopme.common.exception.BrandNotFoundException;
 
 @Controller
 public class BrandController {

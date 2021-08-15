@@ -1,5 +1,9 @@
 package com.shopme.common.entity;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +11,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -20,9 +33,6 @@ public class Role {
 	@Column(length = 150, nullable = false)
 	private String description;
 
-	public Role() {
-	}
-	
 	public Role(Integer id) {
 		this.id = id;
 	}
@@ -35,31 +45,7 @@ public class Role {
 		this.name = name;
 		this.description = description;
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

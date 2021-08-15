@@ -1,6 +1,8 @@
 package com.shopme.common.entity;
 
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -14,6 +16,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "brands")
 public class Brand {
@@ -35,9 +46,6 @@ public class Brand {
 			)
 	private Set<Category> categories = new HashSet<>();
 
-	public Brand() {
-		
-	}
 	
 	public Brand(String name) {
 		this.name = name;
@@ -49,41 +57,9 @@ public class Brand {
 		this.name = name;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLogo() {
-		return logo;
-	}
-
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
-
-	public Set<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
-
 	@Override
 	public String toString() {
-		return "Brand [id=" + id + ", name=" + name + ", categories=" + categories + "]";
+		return this.name;
 	}
 
 	@Transient

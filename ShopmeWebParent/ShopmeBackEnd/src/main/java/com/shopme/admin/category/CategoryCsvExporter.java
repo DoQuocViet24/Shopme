@@ -15,7 +15,7 @@ import com.shopme.common.entity.Category;
 public class CategoryCsvExporter extends AbstractExporter {
 	public void export(List<Category> listCategories, HttpServletResponse response) 
 			throws IOException {
-		super.setResponseHeader(response, "text/csv", ".csv", "categories_");
+		super.setResponseHeader(response, "text/csv", "csv", "categories_");
 		
 		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), 
 				CsvPreference.STANDARD_PREFERENCE);

@@ -1,5 +1,9 @@
 package com.shopme.common.entity;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "product_images")
 public class ProductImage {
@@ -25,45 +37,11 @@ public class ProductImage {
 	@JoinColumn(name = "product_id")
 	private Product product;
 	
-	public ProductImage() {
-	}
-
-	public ProductImage(Integer id, String name, Product product) {
-		this.id = id;
-		this.name = name;
-		this.product = product;
-	}
-
-
 	public ProductImage(String name, Product product) {
 		this.name = name;
 		this.product = product;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-	
 	@Transient
 	public String getImagePath() {
 		return "/product-images/" + product.getId() + "/extras/" + this.name;

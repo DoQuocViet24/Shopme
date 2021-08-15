@@ -1,5 +1,9 @@
 package com.shopme.common.entity;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +13,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "product_details")
 public class ProductDetail {
@@ -26,54 +39,9 @@ public class ProductDetail {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	public ProductDetail() {
-	}
-	
-	public ProductDetail(Integer id, String name, String value, Product product) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.value = value;
-		this.product = product;
-	}
-
-
-
 	public ProductDetail(String name, String value, Product product) {
 		this.name = name;
 		this.value = value;
-		this.product = product;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
 		this.product = product;
 	}
 
