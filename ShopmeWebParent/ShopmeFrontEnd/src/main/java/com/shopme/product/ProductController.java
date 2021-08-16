@@ -74,4 +74,29 @@ public class ProductController {
 			return "error/404";
 		}
 	}
+	
+	@GetMapping("/search")
+	public String searchFirstPage(String keyword, Model model) {
+		return searchByPage(keyword, 1, model);
+	}
+	
+	@GetMapping("/search/page/{pageNum}")
+	public String searchByPage(String keyword,@PathVariable("pageNum") int pageNum, Model model) {
+		Page<Product> pageProducts = productService.search(keyword,pageNum);
+		List<Product> listResult = pageProducts.getContent();
+		long startCount = (pageNum - 1) * ProductService.SEARCH_RESULTS_PER_PAGE + 1;
+		long endCount = startCount + ProductService.SEARCH_RESULTS_PER_PAGE - 1;
+		if(endCount > pageProducts.getTotalElements()) {
+			endCount = pageProducts.getTotalElements();
+		}
+		
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", pageProducts.getTotalPages());
+		model.addAttribute("startCount", startCount);
+		model.addAttribute("endCount", endCount);
+		model.addAttribute("totalItems", pageProducts.getTotalElements());
+		model.addAttribute("listResult", listResult);
+		model.addAttribute("keyword", keyword);
+		return "product/search_result";
+	}
 }

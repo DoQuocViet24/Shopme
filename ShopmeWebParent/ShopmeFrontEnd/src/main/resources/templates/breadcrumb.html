@@ -17,8 +17,11 @@
 								<li class="breadcrumb-item"><a
 									th:href="@{'/c/'+${parent.alias}}">[[${parent.name}]]</a></li>
 							</th:block>
-							<br />
-							<li class="breadcrumb-item" th:if="${product !=null}"><span>[[${product.name}]]</span>
+							<div>
+								&nbsp;
+							</div>
+							<li class="breadcrumb-item" th:if="${product !=null}">
+								<span>[[${product.name}]]</span>
 							</li>
 						</ol>
 					</nav>
