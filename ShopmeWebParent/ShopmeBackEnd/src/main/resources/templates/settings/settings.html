@@ -30,6 +30,9 @@
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" data-toggle="tab" href="#mailTemplate" role="tab">Mail Templates</a>
+		  </li>	
+		  <li class="nav-item">
+		    <a class="nav-link" data-toggle="tab" href="#payment" role="tab">Payment</a>
 		  </li>		  
 		</ul>
 		
@@ -38,26 +41,47 @@
 				<div th:replace="settings/general :: content"></div>
 		  </div>
 		  <div class="tab-pane" id="countries" role="tabpanel">
-
+				<div th:replace="settings/countries :: content"></div>
 		  </div>
 		  <div class="tab-pane" id="states" role="tabpanel">
-
+				<div th:replace="settings/states :: content"></div>
 		  </div>
 		  <div class="tab-pane p-3" id="mailServer" role="tabpanel">
-
+				<div th:replace="settings/mailServer :: content"></div>
 		  </div>
 		  <div class="tab-pane p-3" id="mailTemplate" role="tabpanel">
+				<div th:replace="settings/mail_templates/mail_templates :: content"></div>
+		  </div>
+		  <div class="tab-pane p-3" id="payment" role="tabpanel">
 
 		  </div>
 		</div>	
 	</div>
 	
+	<div class="toast justify-content-center d-flex" role="alert" aria-live="polite" aria-atomic="true" data-delay="3000">
+	  <div role="alert" aria-live="assertive" aria-atomic="true">
+	  	<div class="toast-body">
+	  		<span id="toastMessage"></span>
+	  	</div>
+	  </div>
+	</div>
 	<div th:replace="fragments :: footer"></div>
 	
 </div>
 <script type="text/javascript">
 MAX_FILE_SIZE = 102400;
+contextPath = "[[@{/}]]";
+var csrfHeaderName = "[[${_csrf.headerName}]]";
+var csrfValue = "[[${_csrf.token}]]";
+
+$(document).ready(function(){
+	$("#customerVerificationContent").richText();
+});
+
+
 </script>
 <script th:src="@{/js/common_form.js}"></script>
+<script th:src="@{/js/countries_setting.js}"></script>
+<script th:src="@{/js/states_setting.js}"></script>
 </body>
 </html>
