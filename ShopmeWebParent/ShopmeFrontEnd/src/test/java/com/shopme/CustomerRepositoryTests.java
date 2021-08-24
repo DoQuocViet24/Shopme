@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Date;
 import java.util.Optional;
 
-import javax.annotation.Resource.AuthenticationType;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -15,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
+import com.shopme.common.entity.AuthenticationType;
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.Customer;
 import com.shopme.customer.CustomerRepository;
@@ -144,13 +143,14 @@ public class CustomerRepositoryTests {
 		assertThat(customer.isEnabled()).isTrue();
 	}
 	
-//	@Test
-//	public void testUpdateAuthenticationType() {
-//		Integer id = 1;
-//		repo.updateAuthenticationType(id, AuthenticationType.DATABASE);
-//		
-//		Customer customer = repo.findById(id).get();
-//		
-//		assertThat(customer.getAuthenticationType()).isEqualTo(AuthenticationType.DATABASE);
-//	}
+	@Test
+	public void testUpdateAuthenticationType() {
+		Integer id = 1;
+		
+		repo.updateAuthenticationType(id,AuthenticationType.DATABASE);
+		
+		Customer customer = repo.findById(id).get();
+		
+		assertThat(customer.getAuthenticationType()).isEqualTo(AuthenticationType.DATABASE);
+	}
 }

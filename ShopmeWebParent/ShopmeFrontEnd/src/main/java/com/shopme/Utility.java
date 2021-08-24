@@ -25,9 +25,10 @@ public class Utility {
 		mailSender.setPassword(settings.getPassword());
 		
 		Properties mailProperties = new Properties();
-		mailProperties.setProperty("mail.smtp.auth",settings.getSmtpAuth());
+
 		mailProperties.setProperty("mail.smtp.starttls.enable", settings.getSmtpSecured());
-		
+		mailProperties.setProperty("mail.smtp.auth", settings.getSmtpAuth());
+		mailProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 		mailSender.setJavaMailProperties(mailProperties);
 		
 		return mailSender;

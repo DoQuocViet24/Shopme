@@ -22,6 +22,8 @@ import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.brand.BrandCsvExporter;
 import com.shopme.admin.brand.BrandService;
 import com.shopme.admin.category.CategoryService;
+import com.shopme.admin.paging.PagingAndSortingHelper;
+import com.shopme.admin.paging.PagingAndSortingParam;
 import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
@@ -36,44 +38,25 @@ public class ProductController {
 	
 	@GetMapping("/products")
 	public String listFirstPage(Model model) {
-		return listByPage(1, model, "name", "asc", null, 0);
+		return "redirect:/products/page/1?sortField=id&&sortDir=asc&categoryId=0";
 	}
 	
 	@GetMapping("/products/page/{pageNum}")
 	public String listByPage(
 			@PathVariable(name = "pageNum") int pageNum, Model model,
-			@Param("sortField") String sortField, @Param("sortDir") String sortDir,
-			@Param("keyword") String keyword,
-			@Param("categoryId") Integer categoryId
+			@PagingAndSortingParam(listName = "listProducts", moduleURL = "/procducts") PagingAndSortingHelper helper,
+			Integer categoryId
 			) {
-		Page<Product> page = productService.listByPage(pageNum, sortField, sortDir, keyword, categoryId);
-		List<Product> listProducts = page.getContent();
-		
-		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
-		
-		long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_PAGE + 1;
-		long endCount = startCount + ProductService.PRODUCTS_PER_PAGE - 1;
-		if (endCount > page.getTotalElements()) {
-			endCount = page.getTotalElements();
-		}
-		
-		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-		
-		if (categoryId != null) model.addAttribute("categoryId", categoryId); 
-			
-		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("startCount", startCount);
-		model.addAttribute("endCount", endCount);
-		model.addAttribute("totalItems", page.getTotalElements());
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("reverseSortDir", reverseSortDir);
-		model.addAttribute("keyword", keyword);		
-		model.addAttribute("listProducts", listProducts);
-		model.addAttribute("listCategories", listCategories);		
-		
-		return "products/products";		
+				productService.listByPage(pageNum, helper, categoryId);
+
+				List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+
+				if (categoryId != null) {
+					model.addAttribute("categoryId", categoryId);
+				}
+				model.addAttribute("listCategories", listCategories);
+
+				return "products/products";
 	}
 	
 	@GetMapping("/products/new")
@@ -104,7 +87,7 @@ public class ProductController {
 			@AuthenticationPrincipal ShopmeUserDetails loggedUser
 			) 
 					throws IOException {
-		if (loggedUser.hasRole("Salesperson")) {
+		if (loggedUser.hasRole("Salesperson")&& !loggedUser.hasRole("Admin")&& !loggedUser.hasRole("Editor")) {
 			productService.saveProductPrice(product);
 			ra.addFlashAttribute("message", "The product has been saved successfully.");			
 			return "redirect:/products";			
@@ -161,12 +144,20 @@ public class ProductController {
 	
 	@GetMapping("/products/edit/{id}")
 	public String editProduct(@PathVariable("id") Integer id, Model model,
-			RedirectAttributes ra) {
+			RedirectAttributes ra,
+			@AuthenticationPrincipal ShopmeUserDetails loggedUser) {
 		try {
 			Product product = productService.get(id);
 			List<Brand> listBrands = brandService.listAll();
 			Integer numberOfExistingExtraImages = product.getImages().size();
 			
+			boolean isReadOnlyForSalesperson = false;
+			
+			if (loggedUser.hasRole("Salesperson") && !loggedUser.hasRole("Admin") && !loggedUser.hasRole("Editor")) {
+					isReadOnlyForSalesperson = true;
+			}
+			
+			model.addAttribute("isReadOnlyForSalesperson", isReadOnlyForSalesperson);
 			model.addAttribute("product", product);
 			model.addAttribute("listBrands", listBrands);
 			model.addAttribute("pageTitle", "Edit Product (ID: " + id + ")");
