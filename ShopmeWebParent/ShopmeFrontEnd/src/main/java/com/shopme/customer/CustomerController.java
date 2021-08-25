@@ -87,7 +87,7 @@ public class CustomerController {
 	@GetMapping("/account_details")
 	public String viewAccountDetails(Model model, HttpServletRequest request) {
 
-		String email = getEmailOfAuthenticatedCustomer(request);
+		String email = Utility.getEmailOfAuthenticatedCustomer(request);
 		Customer customer = customerService.getCustomerByEmail(email);
 		List<Country> listCountries = customerService.listAllCountries();
 
@@ -97,21 +97,6 @@ public class CustomerController {
 		return "customer/account_form";
 	}
 
-	private String getEmailOfAuthenticatedCustomer(HttpServletRequest request) {
-		Object principal = request.getUserPrincipal();
-		String customerEmail = null;
-
-		if (principal instanceof UsernamePasswordAuthenticationToken
-				|| principal instanceof RememberMeAuthenticationToken) {
-			customerEmail = request.getUserPrincipal().getName();
-		} else if (principal instanceof OAuth2AuthenticationToken) {
-			OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) principal;
-			CustomerOauth2User oauth2User = (CustomerOauth2User) oauth2Token.getPrincipal();
-			customerEmail = oauth2User.getEmail();
-		}
-
-		return customerEmail;
-	}
 	
 	@PostMapping("/update_account_details")
 	public String updateAcountDetails(HttpServletRequest request ,Customer customer, RedirectAttributes ra) {

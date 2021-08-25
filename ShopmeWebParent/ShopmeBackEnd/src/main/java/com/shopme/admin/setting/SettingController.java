@@ -32,7 +32,6 @@ public class SettingController {
 	public String listAll(Model model) {
 		List<Setting> listSettings = settingService.listAllSetting();
 		List<Currency> listCurrencies = currencyRepository.findAllByOrderByNameAsc();
-		
 		model.addAttribute("listCurrencies", listCurrencies);
 		
 		for(Setting setting : listSettings) {

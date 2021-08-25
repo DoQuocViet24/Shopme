@@ -90,6 +90,11 @@ public class Product {
 	@OrderBy("id asc")
 	private List<ProductDetail> details = new ArrayList<>();
 
+
+	public Product(Integer id) {
+		this.id = id;
+	}
+	
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + "]";
@@ -143,4 +148,6 @@ public class Product {
 		}
 		return this.price;
 	}
+
+
 }
