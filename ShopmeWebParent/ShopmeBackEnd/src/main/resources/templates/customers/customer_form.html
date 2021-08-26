@@ -110,37 +110,9 @@
 </div>
 <script type="text/javascript">
 	MAX_FILE_SIZE = 102400; // 100KB
-	
-	moduleURL = "[[@{/customers}]]";
-	var dropDownCountry;
-	var dataListState;
 	contextPath = "[[@{/}]]"
-	$(document).ready(function(){
-		dropDownCountry = $("#country");
-		dataListState = $("#listStates");
-		dropDownCountry.on("change",function(){
-			loadStatesForCountry();
-			$("#state").val("").focus();
-		});
-	});
-
-	function loadStatesForCountry(){
-		selectedCountry = $("#country option:selected");
-		countryId = selectedCountry.val();
-		url = contextPath + "states/list_by_country/" + countryId;
-		
-		$.get(url, function(responseJSON) {
-			dataListState.empty();
-			
-			$.each(responseJSON, function(index, state) {
-				$("<option>").val(state.name).text(state.name).appendTo(dataListState);
-			});
-			
-		}).fail(function() {
-			showErrorModal("Error loading state/provinces for the selected country");
-		});	
-	}
-
+	moduleURL = "[[@{/customers}]]";
+	
 	function checkEmailUnique(form) {
 		url = "[[@{/customers/check_unique_email}]]";
 		email = $("#email").val();
@@ -165,5 +137,6 @@
 	}
 </script>
 <script th:src="@{/js/common_form.js}"></script>
+<script th:src="@{/js/common_form_country_state.js}"></script>	
 </body>
 </html>
