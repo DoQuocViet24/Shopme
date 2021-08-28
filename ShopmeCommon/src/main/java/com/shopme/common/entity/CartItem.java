@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.shopme.common.entity.product.Product;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,11 +22,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "cart_items")
-public class CartItem {
+public class CartItem extends IdBasedEntity{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;

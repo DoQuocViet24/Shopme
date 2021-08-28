@@ -20,11 +20,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "shipping_rates")
-public class ShippingRate {
+public class ShippingRate extends IdBasedEntity{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 	private float rate;
 	private int days;
 	

@@ -2,7 +2,10 @@
 *.icon-silver {color: silver}
 *.icon-green {color: green}
 *.icon-dark {color: gray}
-
+*.bg-aqua{background-color: aqua}
+*.bg-blue{background-color: blue}
+*.bg-cadetblue{background-color: #5F9EA0}
+*.bg-steelblue{background-color: #4682B4}
 @media screen and (max-width: 768px) {
 	/* small screen */
 	div.full-details { display: none }

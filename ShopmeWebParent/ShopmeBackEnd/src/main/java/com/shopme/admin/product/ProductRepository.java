@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.shopme.admin.paging.SearchRepository;
-import com.shopme.common.entity.Product;
+import com.shopme.common.entity.product.Product;
 
 public interface ProductRepository extends SearchRepository<Product, Integer> {
 	

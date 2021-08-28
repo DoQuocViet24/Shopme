@@ -1,4 +1,4 @@
-package com.shopme.common.entity;
+package com.shopme.common.entity.product;
 
 import java.util.Date;
 import java.util.List;
@@ -12,37 +12,42 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.shopme.common.entity.IdBasedEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "product_details")
-public class ProductDetail {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@Column(nullable = false, length = 255)
+@Table(name = "product_images")
+public class ProductImage extends IdBasedEntity{
+
+	@Column(nullable = false)
 	private String name;
-	
-	@Column(nullable = false, length = 255)
-	private String value;
 	
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-
-	public ProductDetail(String name, String value, Product product) {
+	
+	public ProductImage(String name, Product product) {
 		this.name = name;
-		this.value = value;
 		this.product = product;
 	}
 
+	public ProductImage(Integer id ,String name, Product product) {
+		this.name = name;
+		this.product = product;
+		this.id = id;
+	}
+	
+	@Transient
+	public String getImagePath() {
+		return "/product-images/" + product.getId() + "/extras/" + this.name;
+	}
+	
 }

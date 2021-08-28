@@ -17,13 +17,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "currencies")
-public class Currency {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+public class Currency extends IdBasedEntity{
+	
 	@Column(nullable = false, length = 45)
 	private String name;
 	@Column(nullable = false, length = 3)

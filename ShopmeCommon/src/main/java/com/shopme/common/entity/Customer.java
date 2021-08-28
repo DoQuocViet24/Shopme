@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,41 +25,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "customers")
-public class Customer {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+public class Customer extends AbstractAddressWithCountry{
 	
 	@Column(length = 45, nullable = false, unique = true)
 	private String email;
 	
 	@Column(length = 64, nullable = false)
 	private String password;
-	
-	@Column(name = "first_name", length = 45, nullable = false)
-	private String firstName;
-	
-	@Column(name = "last_name", length = 45, nullable = false)
-	private String lastName;
-	
-	@Column(name = "phone_Number", length = 15, nullable = false)
-	private String phoneNumber;
-	
-	@Column(length = 64, nullable = false)
-	private String addressLine1;
-	
-	@Column(length = 64, name="address_line_2")
-	private String addressLine2;
-	
-	@Column(length = 45, nullable = false)
-	private String city;
-	
-	@Column(length = 45, nullable = false)
-	private String state;
-	
-	@Column(length = 10, nullable = false, name="postal_code")
-	private String postalCode;
-	
+		
 	@Column(length = 64, name="verification_code")
 	private String verificationCode;
 	
@@ -70,10 +44,6 @@ public class Customer {
 	@Column(name="reset_password_token", length = 30)
 	private String resetPasswordToken;
 	
-	@ManyToOne
-	@JoinColumn(name="country_id")
-	private Country country;
-	
 	@Enumerated(EnumType.STRING)
 	@Column(name="authentication_type", length = 10)
 	private AuthenticationType authenticationType;
@@ -82,5 +52,4 @@ public class Customer {
 		return firstName+" "+lastName;
 	}
     
-	
 }

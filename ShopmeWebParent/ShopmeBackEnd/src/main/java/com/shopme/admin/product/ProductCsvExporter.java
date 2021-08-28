@@ -11,7 +11,7 @@ import org.supercsv.prefs.CsvPreference;
 
 import com.shopme.admin.AbstractExporter;
 import com.shopme.common.entity.Brand;
-import com.shopme.common.entity.Product;
+import com.shopme.common.entity.product.Product;
 
 public class ProductCsvExporter extends AbstractExporter{
 	 public void export(List<Product> listProducts,HttpServletResponse response) throws IOException {

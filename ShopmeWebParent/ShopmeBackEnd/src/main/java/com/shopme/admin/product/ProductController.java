@@ -27,7 +27,7 @@ import com.shopme.admin.paging.PagingAndSortingParam;
 import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
-import com.shopme.common.entity.Product;
+import com.shopme.common.entity.product.Product;
 import com.shopme.common.exception.ProductNotFoundException;
 
 @Controller
@@ -44,7 +44,7 @@ public class ProductController {
 	@GetMapping("/products/page/{pageNum}")
 	public String listByPage(
 			@PathVariable(name = "pageNum") int pageNum, Model model,
-			@PagingAndSortingParam(listName = "listProducts", moduleURL = "/procducts") PagingAndSortingHelper helper,
+			@PagingAndSortingParam(listName = "listProducts", moduleURL = "/products") PagingAndSortingHelper helper,
 			Integer categoryId
 			) {
 				productService.listByPage(pageNum, helper, categoryId);
