@@ -40,7 +40,7 @@
 		  </div>
 		  
 		  <div class="tab-pane fade p-3" id="track" role="tabpanel">
-		 
+			<div th:replace="orders/order_form_tracks:: content"></div>						  	 
 		  </div>
 		 </div>
 	</div>
@@ -61,7 +61,9 @@
 	contextPath = "[[@{/}]]";
 	var csrfHeaderName = "[[${_csrf.headerName}]]";
 	var csrfValue = "[[${_csrf.token}]]";	
-	
+	decimalDigits = [[${DECIMAL_DIGITS}]];
+	decimalPointType = "[[${DECIMAL_POINT_TYPE}]]";
+	thousandsPointType = "[[${THOUSANDS_POINT_TYPE}]]";
 	$(document).ready(function() {
 		$('#buttonCancel').click(function() { 
 			window.location = "[[@{/orders}]]";	

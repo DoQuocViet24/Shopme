@@ -53,7 +53,7 @@
 				<div th:replace="settings/mail_templates/mail_templates :: content"></div>
 		  </div>
 		  <div class="tab-pane p-3" id="payment" role="tabpanel">
-
+				<div th:replace="settings/payment :: content"></div>
 		  </div>
 		</div>	
 	</div>
@@ -76,6 +76,7 @@ var csrfValue = "[[${_csrf.token}]]";
 
 $(document).ready(function(){
 	$("#customerVerificationContent").richText();
+	$("#orderConfirmContent").richText({height: 400});
 });
 
 
