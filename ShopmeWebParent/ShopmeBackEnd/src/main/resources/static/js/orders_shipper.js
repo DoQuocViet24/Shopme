@@ -34,7 +34,6 @@ function addEventHandlerForYesButton() {
 
 function sendRequestToUpdateOrderStatus(button) {
 	requestURL = button.attr("href");
-	
 	$.ajax({
 		type: 'POST',
 		url: requestURL,

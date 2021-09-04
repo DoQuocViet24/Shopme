@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.admin.paging.PagingAndSortingParam;
+import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.admin.setting.SettingService;
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.order.Order;
@@ -26,6 +28,7 @@ import com.shopme.common.entity.order.OrderStatus;
 import com.shopme.common.entity.order.OrderTrack;
 import com.shopme.common.entity.product.Product;
 import com.shopme.common.entity.setting.Setting;
+import com.shopme.common.exception.OrderNotFoundException;
 
 @Controller
 public class OrderController {
@@ -44,11 +47,14 @@ private String defaultRedirectURL = "redirect:/orders/page/1?sortField=orderTime
 	public String listByPage(
 			@PagingAndSortingParam(listName = "listOrders", moduleURL = "/orders") PagingAndSortingHelper helper,
 			@PathVariable(name = "pageNum") int pageNum,
-			HttpServletRequest request) {
+			HttpServletRequest request,
+			@AuthenticationPrincipal ShopmeUserDetails loggedUser) {
 
 		orderService.listByPage(pageNum, helper);
 		loadCurrencySetting(request);
-		
+		if(loggedUser.hasRole("Shipper") && !loggedUser.hasRole("Admin") && !loggedUser.hasRole("Salesperson")) {
+			return "orders/orders_shipper";
+		}
 		return "orders/orders";
 	}
 	
@@ -62,11 +68,18 @@ private String defaultRedirectURL = "redirect:/orders/page/1?sortField=orderTime
 	
 	@GetMapping("/orders/detail/{id}")
 	public String viewOrderDetails(@PathVariable("id") Integer id, Model model, 
-			RedirectAttributes ra, HttpServletRequest request) {
+			RedirectAttributes ra, HttpServletRequest request,
+			@AuthenticationPrincipal ShopmeUserDetails loggedUser ) {
 		try {
 			Order order = orderService.get(id);
 			loadCurrencySetting(request);			
 			
+			boolean isVisibleForAdminOrSalesperson = true;
+			if(loggedUser.hasRole("Shipper") && !loggedUser.hasRole("Admin") && !loggedUser.hasRole("Salesperson")) {
+				isVisibleForAdminOrSalesperson = false;
+			}
+			
+			model.addAttribute("isVisibleForAdminOrSalesperson", isVisibleForAdminOrSalesperson);
 			model.addAttribute("order", order);
 			
 			return "orders/order_details_modal";

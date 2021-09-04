@@ -159,7 +159,8 @@ public class OrderRepositoryTests {
 	
 	@Test
 	public void testUpdateOrderTracks() {
-		Integer orderId = 7;
+		for(Integer i = 10; i<=13; i++) {
+		Integer orderId = i;
 		Order order = repo.findById(orderId).get();
 		
 		OrderTrack newTrack = new OrderTrack();
@@ -181,6 +182,7 @@ public class OrderRepositoryTests {
 		Order updatedOrder = repo.save(order);
 		
 		assertThat(updatedOrder.getOrderTracks()).hasSizeGreaterThan(1);
+		}
 	}
 //	
 //	@Test

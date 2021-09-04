@@ -25,19 +25,19 @@ public class PayPalService {
 	private SettingService settingService;
 		
 	public boolean validateOrder(String orderId) throws PayPalApiException {
-		getOrderDetails(orderId);
-
-		return false;
+        PayPalOrderResponse orderResponse = getOrderDetails(orderId);
+		
+		return orderResponse.validate(orderId);
 	}
 
-	private void getOrderDetails(String orderId) throws PayPalApiException {
+	private PayPalOrderResponse  getOrderDetails(String orderId) throws PayPalApiException {
 		ResponseEntity<PayPalOrderResponse> response = makeRequest(orderId);
 		
 		HttpStatus statusCode = response.getStatusCode();
 		if(!statusCode.equals(HttpStatus.OK)) {
 			throwExceptionForNonOKResponse(statusCode);
 		}
-		PayPalOrderResponse orderResponse = response.getBody();
+		return response.getBody();
 	}
 
 	private ResponseEntity<PayPalOrderResponse> makeRequest(String orderId) {
