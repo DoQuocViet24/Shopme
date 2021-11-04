@@ -63,6 +63,7 @@ public class Order extends AbstractAddress{
 	private Customer customer;
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OrderBy("id ASC")
 	private Set<OrderDetail> orderDetails = new HashSet<>();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)

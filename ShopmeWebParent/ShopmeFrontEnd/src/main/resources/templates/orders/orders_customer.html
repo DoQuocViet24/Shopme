@@ -59,6 +59,9 @@
 								th:classappend="'linkReturn' + ${order.id}"
 								th:orderId="${order.id}" 
 								title="Return this order"></a>
+							<a class="fas fa-comment fa-2x icon-green linkFeedbackOrder" th:href="@{'/orders/feedback/'+${order.id}}" 
+								th:classappend="'linkFeedback'+${order.id}" 
+								th:orderId="${order.id}" title="Feedback this order"></a>
 						</th:block> 
 					</td>
 				</tr>

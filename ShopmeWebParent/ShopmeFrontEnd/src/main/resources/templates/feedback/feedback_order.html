@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('My Orders', 'none')" />
+
+<body>
+    <div class="container-fluid">
+        <div th:replace="navigation :: header_menu"></div>
+        <div th:replace="navigation :: search_nav"></div>
+        <div>
+            <h2>Feedback order</h2>
+        </div>
+        <div th:each="orderDetails : ${order.orderDetails}">
+            <form th:action="@{/orders/feedback/save}" method="post">
+                <input type="hidden" name="order_id" th:value="${order.id}" />
+                <input type="hidden" name="product_id" th:value="${orderDetails.product.id}">
+                <input type="hidden" name="orderDetail_id" th:value="${orderDetails.id}">
+                <ul>
+                    <span th:text="*{orderDetails.product.id}"></span>
+                    <span th:text="*{orderDetails.product.name}"></span>
+                    <th:block th:if="${orderDetails.feedback==null}">
+                        <input  name="feedbackMes" type="text">
+                    </th:block>
+                    <th:block th:if="${orderDetails.feedback!=null} ">
+                        <input type="text" th:value="${orderDetails.feedback.message} "/>
+                    </th:block>
+                    <button type="submit ">Send</button>
+                </ul>
+            </form>
+
+        </div>
+
+        <div th:replace="navigation :: footer_menu "></div>
+    </div>
+
+</body>
+
+</html>

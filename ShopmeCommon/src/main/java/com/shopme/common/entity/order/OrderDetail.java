@@ -1,13 +1,12 @@
 package com.shopme.common.entity.order;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.shopme.common.entity.Feedback;
 import com.shopme.common.entity.IdBasedEntity;
 import com.shopme.common.entity.product.Product;
 
@@ -38,5 +37,7 @@ public class OrderDetail extends IdBasedEntity{
 	@JoinColumn(name = "order_id")
 	private Order order;
 
+	@OneToOne(mappedBy="orderDetail")
+	private Feedback feedback;
 	
 }
